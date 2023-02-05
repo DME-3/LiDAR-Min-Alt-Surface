@@ -58,7 +58,7 @@ LON_MIN, LON_MAX = 6.956799, 6.967634
 min_x, min_y, max_x, max_y = LON_MIN, LAT_MIN, LON_MAX, LAT_MAX
 
 # Find the surface
-surface = find_surface(min_x, min_y, max_x, max_y, resolution = 10)
+surface = find_surface(min_x, min_y, max_x, max_y, resolution = 100)
 
 print(surface)
 
