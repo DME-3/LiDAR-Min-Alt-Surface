@@ -3,8 +3,7 @@ import numpy as np
 import laspy
 import utm
 import pyproj
-
-
+import time
 
 # Colonius
 input_lat = 50.946944444
@@ -32,13 +31,8 @@ def latlon_to_utm(lat, lon):
 
     return utm_x, utm_y
 
-
-def utm_to_laz_filename(utm_x, utm_y):
-    # Convert UTM coordinates to .laz filename
-    easting = int(utm_x)
-    northing = int(utm_y)
-    filename = f"lidar_data/3dm_32_{easting:03d}_{northing:04d}_1_nw.laz"
-    return filename
+# Start timer
+start_time = time.time()
 
 # Convert input lat/lon to UTM
 input_utm_x, input_utm_y = latlon_to_utm(input_lat, input_lon)
@@ -78,10 +72,16 @@ for filename in os.listdir("lidar_data"):
             
             # Find highest elevation within search radius with classification 20
             # https://www.bezreg-koeln.nrw.de/brk_internet/geobasis/hoehenmodelle/nutzerinformationen.pdf
-            in_radius = (distance <= search_radius) & (class_val == 26)
+            in_radius = (distance <= search_radius) & (class_val == 20)
             max_elevation = np.max(z[in_radius])
+
             if max_elevation > highest_elevation:
                 highest_elevation = max_elevation
 
 # Print result
 print(f"Highest elevation in {search_radius}m radius around ({input_lat}, {input_lon}): {highest_elevation:.2f}m above geoid")
+
+# End timer and print execution time
+end_time = time.time()
+execution_time = end_time - start_time
+print(f"Execution time: {execution_time:.2f} seconds")
