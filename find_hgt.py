@@ -50,6 +50,11 @@ max_x = input_utm_x + search_radius
 min_y = input_utm_y - search_radius
 max_y = input_utm_y + search_radius
 
+idx_min_x = int(min_x // 1000)
+idx_max_x = int(max_x // 1000)
+idx_min_y = int(min_y // 1000)
+idx_max_y = int(max_y // 1000)
+
 # Iterate through all .laz files in folder and open only those within bounding box
 highest_elevation = -float("inf")
 for filename in os.listdir("lidar_data"):
@@ -66,12 +71,14 @@ for filename in os.listdir("lidar_data"):
             x = las.x
             y = las.y
             z = las.z
-
+            class_val = las.classification
+            
             # Calculate distance from input point
             distance = np.sqrt((x - input_utm_x)**2 + (y - input_utm_y)**2)
             
-            # Find highest elevation within search radius
-            in_radius = distance <= search_radius
+            # Find highest elevation within search radius with classification 20
+            # https://www.bezreg-koeln.nrw.de/brk_internet/geobasis/hoehenmodelle/nutzerinformationen.pdf
+            in_radius = (distance <= search_radius) & (class_val == 26)
             max_elevation = np.max(z[in_radius])
             if max_elevation > highest_elevation:
                 highest_elevation = max_elevation
