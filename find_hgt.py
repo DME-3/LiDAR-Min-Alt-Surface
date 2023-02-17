@@ -21,8 +21,9 @@ input_lon = 6.971777778
 input_lat = 50.941520367
 input_lon = 6.957295594
 
-input_lat = 50.943290
-input_lon = 6.932946
+# Koeln Triangle
+input_lat = 50.940305556
+input_lon = 6.971777778
 
 # Define conversion functions
 def latlon_to_utm(lat, lon):
@@ -85,3 +86,5 @@ print(f"Highest elevation in {search_radius}m radius around ({input_lat}, {input
 end_time = time.time()
 execution_time = end_time - start_time
 print(f"Execution time: {execution_time:.2f} seconds")
+
+# TODO next: open all files for the bounding bo (with margins), read x, y, z with class 20, stack them horizontally, and process the whole sets

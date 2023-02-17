@@ -60,9 +60,9 @@ def find_files(lat_min, lat_max, lon_min, lon_max):
 def load_files(laz_files):
 
     # Initialize empty arrays for point coordinates and elevations
-    x_all = np.empty((0))
-    y_all = np.empty((0))
-    z_all = np.empty((0))
+    x_all = np.array([])
+    y_all = np.array([])
+    z_all = np.array([])
 
     for file in tqdm(laz_files):
         las = laspy.read(file)
@@ -75,9 +75,9 @@ def load_files(laz_files):
         mask = (np.isin(class_val, class_ok))&(z>=Z_MIN)
 
         # Stack point coordinates and elevations
-        x_all = np.hstack((x_all, mask))
-        y_all = np.hstack((y_all, mask))
-        z_all = np.hstack((z_all, mask))
+        x_all = np.hstack((x_all, x[mask]))
+        y_all = np.hstack((y_all, y[mask]))
+        z_all = np.hstack((z_all, z[mask]))
 
         print(sys.getsizeof(x_all))
 
@@ -115,7 +115,7 @@ def create_surface(lat_min, lat_max, lon_min, lon_max, resolution, x_all, y_all,
 
     # Calculate Z values using user-defined function find_z(x, y)
     zz = np.zeros_like(xx)
-    for i in range(xx.shape[0]):
+    for i in tqdm(range(xx.shape[0])):
         for j in range(xx.shape[1]):
             zz[i, j] = find_z(x_all, y_all, z_all, xx[i, j], yy[i, j])
 
