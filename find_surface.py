@@ -112,7 +112,7 @@ x_edges = []
 y_edges = []
 
 box_size=2000
-resolution = 100
+resolution = 50
 
 x_edges = np.arange(bbox_min_x, bbox_max_x,  box_size)
 x_edges = np.append(x_edges, bbox_max_x)
@@ -130,7 +130,7 @@ yy_result = []
 zz_result = []
 
 for i in tqdm(range(x_len - 1)):
-    for j in range(y_len - 1):
+    for j in tqdm(range(y_len - 1)):
 
         laz_files = find_files(x_edges[i], x_edges[i+1], y_edges[j], y_edges[j+1])
 
