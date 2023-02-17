@@ -96,7 +96,6 @@ def find_z(x_all, y_all, z_all, x, y):
 
     return z_max
 
-
 def create_surface(lat_min, lat_max, lon_min, lon_max, resolution, x_all, y_all, z_all):
     # Define UTM zone and hemisphere letter
     zone_num = 32
@@ -120,8 +119,6 @@ def create_surface(lat_min, lat_max, lon_min, lon_max, resolution, x_all, y_all,
             zz[i, j] = find_z(x_all, y_all, z_all, xx[i, j], yy[i, j])
 
     return xx, yy, zz
-
-
 
 laz_files = find_files(LAT_MIN, LAT_MAX, LON_MIN, LON_MAX)
 print('The bounding box corresponds to %s files in total'%(len(laz_files)))
