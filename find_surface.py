@@ -1,18 +1,16 @@
-import os
 import numpy as np
 import laspy
 import utm
-import pyproj
 import time
-import sys
+import pickle
 from tqdm import tqdm
+
+LAT_MIN, LAT_MAX = 50.935333, 50.942379
+LON_MIN, LON_MAX = 6.956799, 6.967634
 
 # Define the bounding box coordinates in WGS-84
 LAT_MIN, LAT_MAX = 50.896393, 50.967115
 LON_MIN, LON_MAX = 6.919968, 7.005756
-
-LAT_MIN, LAT_MAX = 50.935333, 50.942379
-LON_MIN, LON_MAX = 6.956799, 6.967634
 
 # Minimum Z to consider
 Z_MIN = 50
@@ -32,13 +30,11 @@ def latlon_to_utm(lat, lon):
 
     return utm_x, utm_y
 
-def find_files(lat_min, lat_max, lon_min, lon_max):
-   
-    bbox_min_x, bbox_min_y = latlon_to_utm(lat_min, lon_min)
+def find_files(bbox_min_x, bbox_max_x, bbox_min_y, bbox_max_y):
+       
     bbox_min_x = bbox_min_x - radius
     bbox_min_y = bbox_min_y - radius
 
-    bbox_max_x, bbox_max_y = latlon_to_utm(lat_max, lon_max)
     bbox_max_x = bbox_max_x + radius
     bbox_max_y = bbox_max_y + radius
 
@@ -64,9 +60,9 @@ def load_files(laz_files):
     y_all = np.array([])
     z_all = np.array([])
 
-    for file in tqdm(laz_files):
+    for file in laz_files:
         las = laspy.read(file)
-        print('processing %s'%(file))
+        #print('processing %s'%(file))
         x = las.x
         y = las.y
         z = las.z
@@ -78,10 +74,6 @@ def load_files(laz_files):
         x_all = np.hstack((x_all, x[mask]))
         y_all = np.hstack((y_all, y[mask]))
         z_all = np.hstack((z_all, z[mask]))
-
-        print(sys.getsizeof(x_all))
-
-        #laspy.LasReader.close(las)
     
     return x_all, y_all, z_all
 
@@ -96,14 +88,7 @@ def find_z(x_all, y_all, z_all, x, y):
 
     return z_max
 
-def create_surface(lat_min, lat_max, lon_min, lon_max, resolution, x_all, y_all, z_all):
-    # Define UTM zone and hemisphere letter
-    zone_num = 32
-    zone_let = 'U'
-
-    # Convert bounding box limits to UTM coordinates
-    x_min, y_min = utm.from_latlon(lat_min, lon_min, zone_num, zone_let)[:2]
-    x_max, y_max = utm.from_latlon(lat_max, lon_max, zone_num, zone_let)[:2]
+def create_surface(x_min, x_max, y_min, y_max, resolution, x_all, y_all, z_all):
 
     # Create 1D arrays of X and Y coordinates
     x = np.arange(x_min, x_max, resolution)
@@ -120,24 +105,64 @@ def create_surface(lat_min, lat_max, lon_min, lon_max, resolution, x_all, y_all,
 
     return xx, yy, zz
 
-laz_files = find_files(LAT_MIN, LAT_MAX, LON_MIN, LON_MAX)
-print('The bounding box corresponds to %s files in total'%(len(laz_files)))
+bbox_min_x, bbox_min_y = latlon_to_utm(LAT_MIN, LON_MIN)
+bbox_max_x, bbox_max_y = latlon_to_utm(LAT_MAX, LON_MAX)
 
-print('loading files...')
+x_edges = []
+y_edges = []
 
-# Start timer
-start_time = time.time()
+box_size=2000
+resolution = 100
 
-x_all, y_all, z_all = load_files(laz_files)
+x_edges = np.arange(bbox_min_x, bbox_max_x,  box_size)
+x_edges = np.append(x_edges, bbox_max_x)
 
-# End timer and print execution time
-end_time = time.time()
-execution_time = end_time - start_time
+y_edges = np.arange(bbox_min_y, bbox_max_y,  box_size)
+y_edges = np.append(y_edges, bbox_max_y)
 
-print('loading finished')
+x_len = len(x_edges)
+y_len = len(y_edges)
 
-print(f"Execution time: {execution_time:.2f} seconds")
+print('x_len: %s, y_len: %s, number of boxes: %s'%(str(x_len), str(y_len), str((x_len-1)*(y_len-1))))
 
-xx, yy, zz = create_surface(LAT_MIN, LAT_MAX, LON_MIN, LON_MAX, 10, x_all, y_all, z_all)
+xx_result = []
+yy_result = []
+zz_result = []
+
+for i in tqdm(range(x_len - 1)):
+    for j in range(y_len - 1):
+
+        laz_files = find_files(x_edges[i], x_edges[i+1], y_edges[j], y_edges[j+1])
+
+        #print('Current bounding box corresponds to %s files in total'%(len(laz_files)))
+        print('Loading files...')
+
+        # Start timer
+        start_time = time.time()
+
+        x_all, y_all, z_all = load_files(laz_files)
+
+        # End timer and print execution time
+        end_time = time.time()
+        execution_time = end_time - start_time
+
+        #print('loading finished')
+
+        print(f"Loaded files in {execution_time:.2f} seconds. Finding elevations...")
+
+        xx, yy, zz = create_surface(x_edges[i], x_edges[i+1], y_edges[j], y_edges[j+1], resolution, x_all, y_all, z_all)
+
+        xx_result.append(xx)
+        yy_result.append(yy)
+        zz_result.append(zz)
+
+with open('xx.pkl','wb') as f:
+    pickle.dump(xx_result, f)
+
+with open('yy.pkl','wb') as f:
+    pickle.dump(yy_result, f)
+
+with open('zz.pkl','wb') as f:
+    pickle.dump(zz_result, f)
 
 print('done')
