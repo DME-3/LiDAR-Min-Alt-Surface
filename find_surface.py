@@ -103,7 +103,10 @@ def create_surface(x_min, x_max, y_min, y_max, resolution, x_all, y_all, z_all):
         for j in range(xx.shape[1]):
             zz[i, j] = find_z(x_all, y_all, z_all, xx[i, j], yy[i, j])
 
-    return xx, yy, zz
+    return x, y, zz
+
+# Start timer
+start_time = time.time()
 
 bbox_min_x, bbox_min_y = latlon_to_utm(LAT_MIN, LON_MIN)
 bbox_max_x, bbox_max_y = latlon_to_utm(LAT_MAX, LON_MAX)
@@ -112,7 +115,7 @@ x_edges = []
 y_edges = []
 
 box_size=2000
-resolution = 50
+resolution = 20 # 100 takes 20', 50 takes 80' (4 times more)
 
 x_edges = np.arange(bbox_min_x, bbox_max_x,  box_size)
 x_edges = np.append(x_edges, bbox_max_x)
@@ -125,44 +128,40 @@ y_len = len(y_edges)
 
 print('x_len: %s, y_len: %s, number of boxes: %s'%(str(x_len), str(y_len), str((x_len-1)*(y_len-1))))
 
-xx_result = []
-yy_result = []
-zz_result = []
+cols, rows = (x_len-1, y_len-1)
 
-for i in tqdm(range(x_len - 1)):
-    for j in tqdm(range(y_len - 1)):
+# Initialise 2D lists (which will contain arrays and not scalar, so 2D np array does not work here)
+x_results = [[0 for i in range(cols)] for j in range(rows)]
+y_results = [[0 for i in range(cols)] for j in range(rows)]
+z_results = [[0 for i in range(cols)] for j in range(rows)]
+
+# iterate on subboxes
+for i in range(x_len - 1): # subboxes along x axis (longitude)
+    for j in range(y_len - 1): # subboxes along y axis (latitude)
 
         laz_files = find_files(x_edges[i], x_edges[i+1], y_edges[j], y_edges[j+1])
 
-        #print('Current bounding box corresponds to %s files in total'%(len(laz_files)))
-        print('Loading files...')
-
-        # Start timer
-        start_time = time.time()
-
         x_all, y_all, z_all = load_files(laz_files)
 
-        # End timer and print execution time
-        end_time = time.time()
-        execution_time = end_time - start_time
+        x, y, zz = create_surface(x_edges[i], x_edges[i+1], y_edges[j], y_edges[j+1], resolution, x_all, y_all, z_all)
 
-        #print('loading finished')
+        x_results[i][j] = x # 1D array of x coordinates
+        y_results[i][j] = y # 1D array of y coordinates
+        z_results[i][j] = zz # 2D array of z elevations
 
-        print(f"Loaded files in {execution_time:.2f} seconds. Finding elevations...")
+# End timer and print execution time
+end_time = time.time()
+execution_time = end_time - start_time
 
-        xx, yy, zz = create_surface(x_edges[i], x_edges[i+1], y_edges[j], y_edges[j+1], resolution, x_all, y_all, z_all)
+print(f"Processed in {execution_time:.2f} seconds.")
 
-        xx_result.append(xx)
-        yy_result.append(yy)
-        zz_result.append(zz)
+with open('x_results.pkl','wb') as f:
+    pickle.dump(x_results, f)
 
-with open('xx.pkl','wb') as f:
-    pickle.dump(xx_result, f)
+with open('y_results.pkl','wb') as f:
+    pickle.dump(y_results, f)
 
-with open('yy.pkl','wb') as f:
-    pickle.dump(yy_result, f)
-
-with open('zz.pkl','wb') as f:
-    pickle.dump(zz_result, f)
+with open('z_results.pkl','wb') as f:
+    pickle.dump(z_results, f)
 
 print('done')
