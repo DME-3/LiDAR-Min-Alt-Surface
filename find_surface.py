@@ -115,7 +115,7 @@ x_edges = []
 y_edges = []
 
 box_size=2000
-resolution = 20 # 100 takes 20', 50 takes 80' (4 times more)
+resolution = 20 # 100 takes 20', 50 takes 80' (4 times more), 20 takes 345'
 
 x_edges = np.arange(bbox_min_x, bbox_max_x,  box_size)
 x_edges = np.append(x_edges, bbox_max_x)
@@ -165,3 +165,5 @@ with open('z_results.pkl','wb') as f:
     pickle.dump(z_results, f)
 
 print('done')
+
+# TODO: subsampling. clean code
