@@ -1,6 +1,8 @@
 # LiDAR-Min-Alt-Surface
 Process LiDAR survey files to find the minimum altitude surface over an area (600 m / 1000 ft protection from obstacles).
 
+![contour](https://raw.githubusercontent.com/DME-3/LiDAR-Min-Alt-Surface/main/assets/contourf.png)
+
 ## Source files
 
 Aerial LiDAR survey file in .laz format can be used. They are assumed to be in UTM (zone 32N) format for horizontal coordinates.
