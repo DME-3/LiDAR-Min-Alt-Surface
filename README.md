@@ -1,6 +1,14 @@
 # LiDAR-Min-Alt-Surface
 Process LiDAR survey files to find the minimum altitude surface over an area (600 m / 1000 ft protection from obstacles).
 
+## Source files
+
+Aerial LiDAR survey file in .laz format can be used. They are assumed to be in UTM (zone 32N) format for horizontal coordinates.
+
+Source for NRW LiDAR surveys: https://www.opengeodata.nrw.de/produkte/geobasis/hm/3dm_l_las/3dm_l_las_paketiert/
+Data info: https://www.bezreg-koeln.nrw.de/brk_internet/geobasis/hoehenmodelle/3d-messdaten/index.html
+Data manual: https://www.bezreg-koeln.nrw.de/brk_internet/geobasis/hoehenmodelle/nutzerinformationen.pdf
+
 ## 1 - Find surface from laz
 
 This script gets an input:
