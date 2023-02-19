@@ -23,6 +23,7 @@ box_size = 2000
 resolution = 100 # 100 takes 20', 50 takes 80' (4 times more), 20 takes 345'
 
 # Classification to consider
+# https://www.bezreg-koeln.nrw.de/brk_internet/geobasis/hoehenmodelle/nutzerinformationen.pdf
 lastReturnNichtBoden = 20
 brueckenpunkte = 17
 class_ok = [brueckenpunkte, lastReturnNichtBoden]
@@ -55,7 +56,7 @@ def find_files(bbox_min_x, bbox_max_x, bbox_min_y, bbox_max_y):
 
     for easting in range(min_easting, max_easting + 1):
         for northing in range(min_northing, max_northing + 1):
-            filename = f"/Users/patatino/Dev_local/Python/lasersurface/lidar_data/3dm_32_{easting:03d}_{northing:04d}_1_nw.laz"
+            filename = f"./lidar_data/3dm_32_{easting:03d}_{northing:04d}_1_nw.laz"
             laz_files.append(filename)
 
     return laz_files
@@ -159,13 +160,13 @@ execution_time = end_time - start_time
 
 print(f"Processed in {execution_time:.2f} seconds.")
 
-with open('x_results.pkl','wb') as f:
+with open('./xyz_pickles/x_results.pkl','wb') as f:
     pickle.dump(x_results, f)
 
-with open('y_results.pkl','wb') as f:
+with open('./xyz_pickles/y_results.pkl','wb') as f:
     pickle.dump(y_results, f)
 
-with open('z_results.pkl','wb') as f:
+with open('./xyz_pickles/z_results.pkl','wb') as f:
     pickle.dump(z_results, f)
 
 print('done')
