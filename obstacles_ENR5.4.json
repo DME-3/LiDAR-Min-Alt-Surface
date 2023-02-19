@@ -1,0 +1,167 @@
+{
+    "effectivity": "190522",
+    
+    "obstacles": [
+        {
+            "id": 0,
+            "name": "Colonius Fernsehturm",
+            "permanent": true,
+            "lat": 50.946944444,
+            "lon": 6.931944444,
+            "height_m": 268,
+            "terrain_elevation_m": 48,
+            "ENR5.4": "NORDRHEIN-WESTFALEN 204-10" 
+        },
+        {
+            "id": 1,
+            "name": "Koelnturm (Mediapark)",
+            "permanent": true,
+            "lat": 50.947908333,
+            "lon": 6.942575,
+            "height_m": 165,
+            "terrain_elevation_m": 50,
+            "ENR5.4": "NORDRHEIN-WESTFALEN 271-10"
+        },
+        {
+            "id": 2,
+            "name": "Koelner Dom",
+            "permanent": true,
+            "lat": 50.941520367,
+            "lon": 6.957295594,
+            "height_m": 157,
+            "terrain_elevation_m": 55,
+            "ENR5.4": "NORDRHEIN-WESTFALEN 92-10"
+        },
+        {
+            "id": 3,
+            "name": "AREO Turm",
+            "permanent": true,
+            "lat": 50.911700,
+            "lon": 6.963006,
+            "height_m": 76,
+            "terrain_elevation_m": 51
+        },
+        {
+            "id": 4,
+            "name": "Colonia Haus",
+            "permanent": true,
+            "lat": 50.960555556,
+            "lon": 6.981666667,
+            "height_m": 148,
+            "terrain_elevation_m": 46,
+            "ENR5.4": "NORDRHEIN-WESTFALEN 632-10"
+        },
+        {
+            "id": 5,
+            "name": "Koeln Triangle",
+            "permanent": true,
+            "lat": 50.940305556,
+            "lon": 6.971777778,
+            "height_m": 106,
+            "terrain_elevation_m": 45,
+            "ENR5.4": "NORDRHEIN-WESTFALEN 645-10"
+        },
+        {
+            "id": 6,
+            "name": "Uni-Center",
+            "permanent": true,
+            "lat": 50.921800459,
+            "lon": 6.932576158,
+            "height_m": 133,
+            "terrain_elevation_m": 52,
+            "ENR5.4": "NORDRHEIN-WESTFALEN 167-10"
+        },
+        {
+            "id": 7,
+            "name": "Krohstr. 4 (Bayenthal)",
+            "permanent": true,
+            "lat": 50.907423,
+            "lon": 6.972111,
+            "height_m": 73,
+            "terrain_elevation_m": 52
+        },
+        {
+            "id": 8,
+            "name": "TUV-Rheinland-Turm",
+            "permanent": true,
+            "lat": 50.924352,
+            "lon": 6.992429,
+            "height_m": 114,
+            "terrain_elevation_m": 50
+        },
+		{
+            "id": 9,
+            "name": "Pollonius",
+            "permanent": true,
+            "lat": 50.921616667,
+            "lon": 7.004475,
+            "height_m": 115,
+            "terrain_elevation_m": 45,
+            "ENR5.4": "NORDRHEIN-WESTFALEN 263-10"
+        },
+		{
+            "id": 10,
+            "name": "Heizwerk Kamine Südstadt",
+            "permanent": true,
+            "lat": 50.917741,
+            "lon": 6.958290,
+            "height_m": 75,
+            "terrain_elevation_m": 47
+        },
+		{
+            "id": 11,
+            "name": "DLF-Funkhaus",
+            "permanent": true,
+            "lat": 50.902746,
+            "lon": 6.959707,
+            "height_m": 102,
+            "terrain_elevation_m": 50
+        },
+		{
+            "id": 12,
+            "name": "Ringturm",
+            "permanent": true,
+            "lat": 50.951202,
+            "lon": 6.959952,
+            "height_m": 109,
+            "terrain_elevation_m": 49
+        },
+		{
+            "id": 13,
+            "name": "Justizzentrum",
+            "permanent": true,
+            "lat": 50.922582,
+            "lon": 6.935860,
+            "height_m": 105,
+            "terrain_elevation_m": 50
+        },
+		{
+            "id": 14,
+            "name": "Herkules-Hochhaus",
+            "permanent": true,
+            "lat": 50.950311,
+            "lon": 6.933591,
+            "height_m": 102,
+            "terrain_elevation_m": 49
+        },
+		{
+            "id": 15,
+            "name": "Telekom-Hochhaus Sternengasse",
+            "permanent": true,
+            "lat": 50.934187,
+            "lon": 6.953589,
+            "height_m": 101,
+            "terrain_elevation_m": 51 
+        },
+		{
+            "id": 16,
+            "name": "Rheinenergie Stadion",
+            "permanent": true,
+            "lat": 50.933398,
+            "lon": 6.875124,
+            "height_m": 72,
+            "terrain_elevation_m": 59 
+        }
+		
+    ]          
+}
