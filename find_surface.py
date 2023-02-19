@@ -15,6 +15,13 @@ LON_MIN, LON_MAX = 6.919968, 7.005756
 # Minimum Z to consider
 Z_MIN = 50
 
+# Subsampling factor for points cloud
+SSFACTOR = 4
+
+# Subbox size and grid resolution
+box_size = 2000
+resolution = 100 # 100 takes 20', 50 takes 80' (4 times more), 20 takes 345'
+
 # Classification to consider
 lastReturnNichtBoden = 20
 brueckenpunkte = 17
@@ -63,10 +70,10 @@ def load_files(laz_files):
     for file in laz_files:
         las = laspy.read(file)
         #print('processing %s'%(file))
-        x = las.x
-        y = las.y
-        z = las.z
-        class_val = las.classification
+        x = las.x[::SSFACTOR]
+        y = las.y[::SSFACTOR]
+        z = las.z[::SSFACTOR]
+        class_val = las.classification[::SSFACTOR]
 
         mask = (np.isin(class_val, class_ok))&(z>=Z_MIN)
 
@@ -113,9 +120,6 @@ bbox_max_x, bbox_max_y = latlon_to_utm(LAT_MAX, LON_MAX)
 
 x_edges = []
 y_edges = []
-
-box_size=2000
-resolution = 20 # 100 takes 20', 50 takes 80' (4 times more), 20 takes 345'
 
 x_edges = np.arange(bbox_min_x, bbox_max_x,  box_size)
 x_edges = np.append(x_edges, bbox_max_x)
