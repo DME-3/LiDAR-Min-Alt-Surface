@@ -36,3 +36,7 @@ This script opens the x, y, z arrays.
 It flattens the x, y arrays, then stacks all 2D z arrays horizontally and vertically so as to reconstitute the user's desired area.
 
 It then calculate contour surfaces for defined levels, converts everything back to WGS84, and saves them as geojson for further processing.
+
+## 3 - Notebook
+
+The notebook can be used to visualise the contour with matplotlib or plotly, and also load the obstacles json with official obstacle coordinates to cross-check the LiDAR results.
