@@ -18,7 +18,7 @@ A grid over the box is then created, and for each grid point, the script looks a
 
 x, y, z arrays for each sub bounding boxes are appended to global lists, saved at the end of processing.
 
-## 2
+## 2 - Generate geojson
 
 This script opens the x, y, z arrays.
 
