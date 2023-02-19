@@ -5,9 +5,6 @@ import time
 import pickle
 from tqdm import tqdm
 
-LAT_MIN, LAT_MAX = 50.935333, 50.942379
-LON_MIN, LON_MAX = 6.956799, 6.967634
-
 # Define the bounding box coordinates in WGS-84
 LAT_MIN, LAT_MAX = 50.896393, 50.967115
 LON_MIN, LON_MAX = 6.919968, 7.005756
@@ -170,5 +167,3 @@ with open('./xyz_pickles/z_results.pkl','wb') as f:
     pickle.dump(z_results, f)
 
 print('done')
-
-# TODO: subsampling. clean code
