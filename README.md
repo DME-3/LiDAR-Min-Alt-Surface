@@ -13,15 +13,15 @@ Data manual: https://www.bezreg-koeln.nrw.de/brk_internet/geobasis/hoehenmodelle
 
 ## 1 - Find surface from laz
 
-This script gets an input:
+This script gets as input:
 
 - a bounding box corresponding to the desired horizontal area to be covered,
 - a minimum altitude (Z coordinate) below which laz points are discarded,
 - a subsampling factor. The factor divides the number of points for processing and is an easy way to divide the computation time. However, too much subsampling will "erode" obstacle tops and reduce their height somewhat.
 - a subbox size (in meters). Large bounding boxes are problematic because all corresponding .laz files can't fit in memory. It will be broken down in multiple sub bounding boxes, reducing memory needs (but increasing the number of times files are loaded),
-- a resolution (in meters). The resolution of the ouput x, y, z arrays.
+- a resolution (in meters). The resolution of the ouput x, y, z arrays. Dividing the resolution by 2 multiplies the computation time by 4.  
 - classification of LiDAR points to consider for the processing. By default 20 and 17,
-- a radisu (in meters). This corresponds to the horizontal radius defined in the regulation for staying clear of obstacles over densely populated areas.
+- a radius (in meters). This corresponds to the horizontal radius defined in the regulation for staying clear of obstacles over densely populated areas.
 
 The script iterates over the sub bounding boxes. For each one, it loads all necessary .laz file, retains the points matching the criteria, and append them to a large point array.
 
