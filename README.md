@@ -1,5 +1,5 @@
 # LiDAR-Min-Alt-Surface
-Process LiDAR survey files to find the minimum altitude surface over an area (600 m / 1000 ft protection from obstacles).
+Process LiDAR aerial survey files to determine the minimum flight altitude surface over a defined area. A protection volume of 600 m horizontally and 1000 ft vertically from obstacles is used.  
 
 ![contour](https://raw.githubusercontent.com/DME-3/LiDAR-Min-Alt-Surface/main/assets/contourf.png)
 
