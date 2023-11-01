@@ -6,3 +6,7 @@ old/
 Minimum_AMSL_surface.kml
 Obstacles_surface.kml
 1b_find_local_maxima.py
+LiDAR_results_processing_localmax.ipynb
+xyz_pickles/x_results_noradius_10m_011123.pkl
+xyz_pickles/y_results_noradius_10m_011123.pkl
+xyz_pickles/z_results_noradius_10m_011123.pkl
