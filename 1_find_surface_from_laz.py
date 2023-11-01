@@ -4,6 +4,7 @@ import utm
 import time
 import pickle
 from tqdm import tqdm
+from scipy.spatial import cKDTree
 
 # Data source:
 # https://www.opengeodata.nrw.de/produkte/geobasis/hm/3dm_l_las/
@@ -87,18 +88,15 @@ def load_files(laz_files):
     
     return x_all, y_all, z_all
 
-def find_z(x_all, y_all, z_all, x, y):
+def find_z(tree, z_all, x, y):
 
-    # Calculate distance from input point
-    distance = np.sqrt((x_all - x)**2 + (y_all - y)**2)
+    # Query tree for indices of all points within the radius
+    indices = tree.query_ball_point([x, y], radius)
 
-    # Find highest elevation within search radius
-    in_radius = distance <= radius
-    z_max = np.max(z_all[in_radius])
+    # Directly use indices to find maximum z value
+    return np.max(z_all[indices])
 
-    return z_max
-
-def create_surface(x_min, x_max, y_min, y_max, resolution, x_all, y_all, z_all):
+def create_surface(x_min, x_max, y_min, y_max, resolution, tree, z_all):
 
     # Create 1D arrays of X and Y coordinates
     x = np.arange(x_min, x_max, resolution)
@@ -107,11 +105,11 @@ def create_surface(x_min, x_max, y_min, y_max, resolution, x_all, y_all, z_all):
     # Create 2D arrays of X and Y coordinates
     xx, yy = np.meshgrid(x, y)
 
-    # Calculate Z values using user-defined function find_z(x, y)
+    # Calculate Z values using find_z(x, y)
     zz = np.zeros_like(xx)
     for i in tqdm(range(xx.shape[0])):
         for j in range(xx.shape[1]):
-            zz[i, j] = find_z(x_all, y_all, z_all, xx[i, j], yy[i, j])
+            zz[i, j] = find_z(tree, z_all, xx[i, j], yy[i, j])
 
     return x, y, zz
 
@@ -150,7 +148,9 @@ for i in range(x_len - 1): # subboxes along x axis (longitude)
 
         x_all, y_all, z_all = load_files(laz_files)
 
-        x, y, zz = create_surface(x_edges[i], x_edges[i+1], y_edges[j], y_edges[j+1], resolution, x_all, y_all, z_all)
+        tree = cKDTree(list(zip(x_all, y_all)))
+
+        x, y, zz = create_surface(x_edges[i], x_edges[i+1], y_edges[j], y_edges[j+1], resolution, tree, z_all)
 
         x_results[i][j] = x # 1D array of x coordinates
         y_results[i][j] = y # 1D array of y coordinates
@@ -162,13 +162,13 @@ execution_time = end_time - start_time
 
 print(f"Processed in {execution_time:.2f} seconds.")
 
-with open('./xyz_pickles/x_results.pkl','wb') as f:
+with open('./xyz_pickles/x_results_test.pkl','wb') as f:
     pickle.dump(x_results, f)
 
-with open('./xyz_pickles/y_results.pkl','wb') as f:
+with open('./xyz_pickles/y_results_test.pkl','wb') as f:
     pickle.dump(y_results, f)
 
-with open('./xyz_pickles/z_results.pkl','wb') as f:
+with open('./xyz_pickles/z_results_test.pkl','wb') as f:
     pickle.dump(z_results, f)
 
 print('done')
