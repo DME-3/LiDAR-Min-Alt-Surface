@@ -60,13 +60,13 @@ def transform_geojson_to_wgs84(geojson_str):
 
 if __name__ == "__main__":
 
-  with open('./xyz_pickles/x_results.pkl','rb') as f:
+  with open('xyz_pickles/x_results_10m_011123.pkl','rb') as f:
       x_results = pickle.load(f)
 
-  with open('./xyz_pickles/y_results.pkl','rb') as f:
+  with open('xyz_pickles/y_results_10m_011123.pkl','rb') as f:
       y_results = pickle.load(f)
 
-  with open('./xyz_pickles/z_results.pkl','rb') as f:
+  with open('xyz_pickles/z_results_10m_011123.pkl','rb') as f:
       z_results = pickle.load(f)
 
   # Prepare array of x coordinates
@@ -113,7 +113,7 @@ if __name__ == "__main__":
 
   wgs84_geojson = transform_geojson_to_wgs84(geojson)
 
-  with open('./geojson_results/contour_geojson.json', 'w') as file:
+  with open('./geojson_results/contour_geojson_10m_011123.json', 'w') as file:
       file.write(wgs84_geojson)
 
   # Creates contourf plot, tranform it to WGS84, and save it
@@ -129,6 +129,6 @@ if __name__ == "__main__":
 
   wgs84_geojsonf = transform_geojson_to_wgs84(geojsonf)
 
-  with open('./geojson_results/contourf_geojsonf.json', 'w') as file:
+  with open('./geojson_results/contourf_geojsonf_10m_011123.json', 'w') as file:
       file.write(wgs84_geojsonf)
 
