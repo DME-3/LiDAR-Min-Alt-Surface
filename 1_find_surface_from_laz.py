@@ -5,6 +5,10 @@ import time
 import pickle
 from tqdm import tqdm
 
+# Data source:
+# https://www.opengeodata.nrw.de/produkte/geobasis/hm/3dm_l_las/
+# Open Data Download Client: https://www.geoportal.nrw/?activetab=map&openDownloadclient=true
+
 # Define the bounding box coordinates in WGS-84
 LAT_MIN, LAT_MAX = 50.896393, 50.967115
 LON_MIN, LON_MAX = 6.919968, 7.005756
@@ -21,6 +25,7 @@ resolution = 100 # 100 takes 20', 50 takes 80' (4 times more), 20 takes 345'
 
 # Classification to consider
 # https://www.bezreg-koeln.nrw.de/brk_internet/geobasis/hoehenmodelle/nutzerinformationen.pdf
+# https://www.bezreg-koeln.nrw.de/geobasis-nrw/produkte-und-dienste/hoehenmodelle/3d-messdaten
 lastReturnNichtBoden = 20
 brueckenpunkte = 17
 class_ok = [brueckenpunkte, lastReturnNichtBoden]
