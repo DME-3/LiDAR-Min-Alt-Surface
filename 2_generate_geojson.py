@@ -6,6 +6,8 @@ import json
 import utm
 import geojsoncontour
 
+# Convert to KML with https://products.aspose.app/gis/en/conversion/kml-to-json
+
 # Contour levels (MSL Altitude, feet: min, max, step)
 levels = np.arange(1200, 2200, 100)
 
